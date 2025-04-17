@@ -14,7 +14,7 @@ module binary(
         .clk(clk),
         .Q(State[0]),
         .Default(1'b0),
-        .reset(resert)
+        .reset(reset)
     );
 
     dff one(
@@ -22,7 +22,7 @@ module binary(
         .clk(clk),
         .Q(State[1]),
         .Default(1'b0),
-        .reset(resert)
+        .reset(reset)
     );
     
     dff two(
@@ -30,15 +30,15 @@ module binary(
         .clk(clk),
         .Q(State[2]),
         .Default(1'b0),
-        .reset(resert)
+        .reset(reset)
     );
 
-    assign z = State[2] | (State[0] & State[1]);
+    assign z = State[2] | (~State[0] & State[1]);
     
-    assign Next[0] = (~State[2] & ~State[1] & ~State[0])
-     | (~w & ~State[2] & ~State[1])
-     | (~State[0] & ~w & ~State[1]) 
-     | (w & ~State[2] & State[1]);
+    assign Next[0] = (~State[0] & ~State[1] & ~w)
+     | (w & ~State[2] & ~State[0])
+     | (~State[2] & w & ~State[1]) 
+     | (~w & State[0] & State[1]);
      
     assign Next[1] = (~State[2] & ~State[1] & State[0]) 
     | (~State[0] & w & ~State[2]) 
