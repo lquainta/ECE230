@@ -4,44 +4,42 @@ module seven_seg_scanner(
     output [3:0] anode
 );
     wire Anext, Bnext, Cnext, Dnext;
-    wire Astate, Bstate, Cstate, Dstate;
     
     dff_state Adff (
     .reset(reset),
-    .clock(div_clock),
+    .clk(div_clock),
     .D(Anext),
     .Default(1'b0),
-    .Q(Astate)
+    .Q(anode[0])
     );
     
     dff_state Bdff (
     .reset(reset),
-    .clock(div_clock),
+    .clk(div_clock),
     .D(Bnext),
     .Default(1'b1),
-    .Q(Bstate)
+    .Q(anode[1])
     );
     
     dff_state Cdff (
     .reset(reset),
-    .clock(div_clock),
+    .clk(div_clock),
     .D(Cnext),
     .Default(1'b1),
-    .Q(Cstate)
+    .Q(anode[2])
     );
     
     dff_state Ddff (
     .reset(reset),
-    .clock(div_clock),
+    .clk(div_clock),
     .D(Dnext),
     .Default(1'b1),
-    .Q(Dstate)
+    .Q(anode[3])
     );
         
-    assign Anext = Bstate;
-    assign Bnext = Cstate;
-    assign Cnext = Dstate;
-    assign Dnext = Astate;
-    assign anode = {Dstate, Cstate, Bstate, Astate};    
+    assign Anext = anode[3];
+    assign Bnext = anode[0];
+    assign Cnext = anode[1];
+    assign Dnext = anode[2]; 
 
 endmodule
